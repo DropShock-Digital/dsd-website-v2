@@ -1,0 +1,381 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens: DropShock Digital ─── */
+
+:root {
+  /* Ice palette */
+  --ice-obsidian: #000000;
+  --ice-shadow: #0a0c10;
+  --ice-gunmetal: #1b2128;
+  --ice-rim: #9cc2d9;
+  --ice-frost: #e6eef5;
+  --ice-razor: #ff2e3a;
+
+  /* Sea palette (Steven pages) */
+  --sea-void: #03060d;
+  --sea-deep: #0a1a2e;
+  --sea-mid: #0e2a4a;
+  --sea-rise: #163a66;
+  --sea-bio: #7ff7e0;
+  --sea-kelp: #1f4c3a;
+
+  /* Shared opacity tiers */
+  --white-100: rgba(255, 255, 255, 1);
+  --white-72: rgba(255, 255, 255, 0.72);
+  --white-48: rgba(255, 255, 255, 0.48);
+  --white-24: rgba(255, 255, 255, 0.24);
+  --white-08: rgba(255, 255, 255, 0.08);
+
+  /* Typography */
+  --font-display: "PP Neue Machina", "Geist Mono", monospace;
+  --font-body: "Inter Tight", "Inter", sans-serif;
+  --font-mono: "Berkeley Mono", "JetBrains Mono", monospace;
+
+  /* Type scale (fluid) */
+  --fs-display: clamp(3rem, 8vw, 8.5rem);
+  --fs-h1: clamp(2.25rem, 5vw, 4.5rem);
+  --fs-h2: clamp(1.75rem, 3.5vw, 2.75rem);
+  --fs-h3: clamp(1.25rem, 2.2vw, 1.625rem);
+  --fs-body-lg: 1.125rem;
+  --fs-body: 1rem;
+  --fs-meta: 0.8125rem;
+
+  /* Easing */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Base ─── */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--ice-obsidian);
+  color: var(--white-72);
+  font-family: var(--font-body);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--ice-obsidian);
+}
+
+/* ─── Custom cursor ─── */
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--ice-rim);
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--ice-rim);
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  will-change: transform;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.cursor-ring.hovering {
+  border-color: var(--ice-razor);
+  background: rgba(255, 46, 58, 0.15);
+}
+
+@media (hover: none) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+/* ─── Black ice slab ─── */
+
+.ice-slab {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(24px) saturate(1.2);
+  border-radius: 2px;
+}
+
+.ice-slab:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ─── Deep card (Steven) ─── */
+
+.deep-card {
+  background: rgba(127, 247, 224, 0.04);
+  border: 1px solid rgba(127, 247, 224, 0.18);
+  backdrop-filter: blur(16px);
+  border-radius: 8px;
+}
+
+/* ─── Typography helpers ─── */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-display {
+  font-size: var(--fs-display);
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+.text-h1 {
+  font-size: var(--fs-h1);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.text-h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.text-h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.2;
+}
+
+.text-meta {
+  font-size: var(--fs-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--white-48);
+}
+
+.text-body {
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--white-72);
+}
+
+.text-body-lg {
+  font-size: var(--fs-body-lg);
+  line-height: 1.5;
+  color: var(--white-72);
+}
+
+.text-48 {
+  color: var(--white-48);
+}
+
+.text-razor {
+  color: var(--ice-razor);
+}
+
+/* ─── Buttons ─── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--ice-razor);
+  color: var(--white-100);
+  font-family: var(--font-display);
+  font-size: var(--fs-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: #e02535;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--white-72);
+  font-family: var(--font-display);
+  font-size: var(--fs-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  border-color: var(--ice-rim);
+  color: var(--ice-rim);
+}
+
+/* ─── Segment toggle ─── */
+
+.segment-toggle {
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.segment-toggle button {
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--white-48);
+  font-family: var(--font-display);
+  font-size: var(--fs-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.segment-toggle button.active {
+  background: var(--ice-razor);
+  color: var(--white-100);
+}
+
+/* ─── Focus ring ─── */
+
+:focus-visible {
+  outline: 2px solid var(--ice-rim);
+  outline-offset: 2px;
+}
+
+/* ─── Loading shimmer ─── */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--white-08) 25%,
+    var(--white-24) 50%,
+    var(--white-08) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 2px;
+}
+
+/* ─── Scrollbar ─── */
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ice-shadow);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ice-gunmetal);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ice-rim);
+}
+
+/* ─── Skip link ─── */
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 10000;
+  padding: 0.5rem 1rem;
+  background: var(--ice-razor);
+  color: var(--white-100);
+  font-family: var(--font-display);
+  font-size: var(--fs-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ─── Razorbill bill triangle bullet ─── */
+
+.bill-bullet {
+  list-style: none;
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.bill-bullet::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 0;
+  height: 0;
+  border-left: 6px solid var(--ice-razor);
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+}
+
+/* ─── Divider ─── */
+
+.ice-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.12) 20%,
+    rgba(255, 255, 255, 0.12) 80%,
+    transparent
+  );
+}
+
+/* ─── Background noise texture ─── */
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}

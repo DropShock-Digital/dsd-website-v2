@@ -1,0 +1,18 @@
+.page { padding-top: 5rem; }
+.hero { min-height: 60vh; display: flex; align-items: center; padding: 6rem 2rem 4rem; }
+.heroContent { max-width: 800px; margin: 0 auto; text-align: center; }
+.heroHeadline { font-family: var(--font-display); color: var(--white-100); letter-spacing: -0.02em; line-height: 0.92; margin-bottom: 1.5rem; }
+.prints { padding: 4rem 2rem; background: var(--ice-shadow); position: relative; z-index: 2; }
+.printsInner { max-width: 1280px; margin: 0 auto; }
+.printGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.printCard { overflow: hidden; }
+.printPlaceholder { aspect-ratio: 4/3; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; }
+.printPlaceholderText { font-family: var(--font-display); font-size: 0.75rem; color: var(--white-24); text-transform: uppercase; letter-spacing: 0.08em; }
+.printInfo { padding: 1rem; }
+.printCat { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ice-rim); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.25rem; }
+.printTitle { font-family: var(--font-display); font-size: 0.85rem; color: var(--white-100); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.25rem; }
+.printSize { font-size: 0.8rem; color: var(--white-48); margin-bottom: 0.5rem; }
+.printPrice { font-family: var(--font-display); font-size: 1rem; color: var(--white-100); }
+@media (max-width: 768px) {
+  .printGrid { grid-template-columns: repeat(2, 1fr); }
+}

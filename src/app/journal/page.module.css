@@ -1,0 +1,11 @@
+.page { padding-top: 5rem; }
+.hero { min-height: 60vh; display: flex; align-items: center; padding: 6rem 2rem 4rem; }
+.heroContent { max-width: 800px; margin: 0 auto; text-align: center; }
+.heroHeadline { font-family: var(--font-display); color: var(--white-100); letter-spacing: -0.02em; line-height: 0.92; margin-bottom: 1.5rem; }
+.posts { padding: 4rem 2rem; background: var(--ice-shadow); position: relative; z-index: 2; }
+.postsInner { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.postCard { padding: 2rem; cursor: pointer; transition: background 0.2s; }
+.postCard:hover { background: rgba(255,255,255,0.08); }
+.postMeta { display: flex; gap: 1rem; margin-bottom: 0.75rem; }
+.postDate, .postRead { font-family: var(--font-mono); font-size: 0.7rem; color: var(--white-24); text-transform: uppercase; letter-spacing: 0.06em; }
+.postTitle { font-family: var(--font-display); font-size: 1.1rem; color: var(--white-100); text-transform: uppercase; letter-spacing: 0.04em; }

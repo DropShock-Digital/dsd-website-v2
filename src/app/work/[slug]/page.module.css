@@ -1,0 +1,15 @@
+.page { padding-top: 5rem; }
+.hero { padding: 6rem 2rem 4rem; }
+.heroContent { max-width: 900px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
+.heroMeta { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
+.heroHeadline { font-family: var(--font-display); color: var(--white-100); letter-spacing: -0.02em; margin-bottom: 1rem; }
+.heroSub { max-width: 560px; margin: 0 auto; color: var(--white-48); }
+.caseStudy { padding: 4rem 2rem; background: var(--ice-shadow); position: relative; z-index: 2; }
+.csInner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.csBlock { padding: 2rem; }
+.cta { padding: 5rem 2rem; text-align: center; position: relative; z-index: 2; }
+.ctaInner { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.ctaHeadline { font-family: var(--font-display); color: var(--white-100); letter-spacing: -0.02em; }
+@media (max-width: 768px) {
+  .csInner { grid-template-columns: 1fr; }
+}

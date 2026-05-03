@@ -1,0 +1,17 @@
+.page { padding-top: 5rem; }
+.hero { min-height: 70vh; display: flex; align-items: center; padding: 6rem 2rem 4rem; }
+.heroContent { max-width: 800px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
+.heroHeadline { font-family: var(--font-display); color: var(--white-100); letter-spacing: -0.02em; line-height: 0.92; margin-bottom: 1.5rem; }
+.heroSub { max-width: 560px; margin: 0 auto; color: var(--white-48); }
+.story { padding: 5rem 2rem; background: var(--ice-shadow); position: relative; z-index: 2; }
+.storyInner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+.storyText { display: flex; flex-direction: column; }
+.storyValues { display: flex; flex-direction: column; gap: 1px; }
+.valueCard { padding: 1.5rem; }
+.valueTitle { font-family: var(--font-display); font-size: 0.85rem; color: var(--white-100); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.cta { padding: 8rem 2rem; text-align: center; position: relative; z-index: 2; background: radial-gradient(ellipse at center, rgba(255,46,58,0.04) 0%, transparent 60%); }
+.ctaInner { max-width: 640px; margin: 0 auto; }
+.ctaHeadline { font-family: var(--font-display); color: var(--white-100); margin-bottom: 1rem; letter-spacing: -0.02em; }
+@media (max-width: 900px) {
+  .storyInner { grid-template-columns: 1fr; }
+}

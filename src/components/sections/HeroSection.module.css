@@ -1,0 +1,111 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 2rem 4rem;
+  overflow: hidden;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(26, 33, 40, 0.8) 0%, var(--ice-obsidian) 70%);
+}
+
+.fog {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(156, 194, 217, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(156, 194, 217, 0.03) 0%, transparent 40%);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.eyebrow {
+  margin-bottom: 1.5rem;
+  color: var(--ice-rim);
+}
+
+.headline {
+  font-family: var(--font-display);
+  color: var(--white-100);
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+}
+
+.accent {
+  color: var(--ice-razor);
+}
+
+.sub {
+  max-width: 520px;
+  margin-bottom: 2rem;
+  color: var(--white-48);
+}
+
+.toggle {
+  margin-bottom: 2rem;
+}
+
+.ctas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.microline {
+  font-size: 0.8rem;
+  max-width: 360px;
+}
+
+.razorbillWrap {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 45%;
+  max-width: 600px;
+  z-index: 1;
+  opacity: 0.9;
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--white-24);
+  z-index: 2;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--ice-rim));
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .razorbillWrap {
+    opacity: 0.3;
+    width: 80%;
+  }
+}
