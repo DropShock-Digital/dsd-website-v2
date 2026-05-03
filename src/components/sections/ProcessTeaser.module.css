@@ -1,79 +1,146 @@
 .section {
-  padding: 6rem 2rem;
-  background: var(--ice-shadow);
   position: relative;
-  z-index: 2;
+  padding: 7rem 0;
+  background: var(--bi-shadow);
+  overflow: hidden;
 }
 
-.inner {
-  max-width: 1280px;
+/* Subtle top gradient */
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,0.2), transparent);
+}
+
+.sectionInner {
+  max-width: 1200px;
   margin: 0 auto;
-  text-align: center;
+  padding: 0 3rem;
 }
 
-.eyebrow {
-  color: var(--ice-rim);
-  margin-bottom: 1.5rem;
+/* ─── Header ─── */
+
+.header {
+  margin-bottom: 4rem;
 }
 
-.headline {
-  font-family: var(--font-display);
-  color: var(--white-100);
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
+.title {
+  margin-top: 1rem;
+  max-width: 600px;
 }
 
-.sub {
-  color: var(--white-48);
-  max-width: 480px;
-  margin: 0 auto 3rem;
-}
+/* ─── Steps Grid ─── */
 
-.steps {
+.stepsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  text-align: left;
-  margin-bottom: 2rem;
+  gap: 0;
+  position: relative;
 }
 
-.step {
-  padding: 1.5rem;
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
+.stepItem {
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+.stepItem:last-child { padding-right: 0; }
+
+/* Connector */
+.connector {
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  width: calc(100% - 2rem);
+  height: 2px;
+  z-index: 2;
+  overflow: visible;
+}
+
+/* ─── Card ─── */
+
+.stepCard {
+  padding: 2rem 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.stepCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 200, 255, 0.30);
+}
+
+.stepTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.stepIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 200, 255, 0.08);
+  border: 1px solid rgba(0, 200, 255, 0.15);
+  color: var(--bi-cyan);
 }
 
 .stepNum {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--ice-razor);
-  letter-spacing: 0.1em;
-  display: block;
-  margin-bottom: 0.5rem;
+  font-size: 0.6875rem;
+  color: var(--white-16);
+  letter-spacing: 0.05em;
 }
 
-.stepName {
+.stepTitle {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: var(--white-100);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
 }
 
 .stepDesc {
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   color: var(--white-48);
-  line-height: 1.5;
+  line-height: 1.6;
+  flex: 1;
 }
+
+/* ─── Bottom ─── */
+
+.bottomNote {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  color: var(--white-36);
+  text-align: center;
+}
+
+/* ─── Responsive ─── */
 
 @media (max-width: 900px) {
-  .steps {
-    grid-template-columns: repeat(2, 1fr);
+  .stepsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
   }
+  .stepItem { padding-right: 0; }
+  .connector { display: none; }
+  .sectionInner { padding: 0 1.25rem; }
+  .section { padding: 4rem 0; }
 }
 
-@media (max-width: 480px) {
-  .steps {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 600px) {
+  .stepsGrid { grid-template-columns: 1fr; }
 }

@@ -1,65 +1,77 @@
-.section {
-  padding: 6rem 2rem;
-  background: var(--ice-shadow);
+.counters {
   position: relative;
-  z-index: 2;
+  padding: 5rem 0;
+  background: var(--bi-void);
 }
 
-.inner {
-  max-width: 1280px;
+.countersInner {
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 3rem;
 }
 
-.eyebrow {
-  text-align: center;
-  margin-bottom: 3rem;
-  color: var(--ice-rim);
-}
-
-.grid {
+.countersGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  margin-bottom: 3rem;
+  gap: 1rem;
 }
 
-.counter {
+.counterCard {
+  padding: 2rem 1.5rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.number {
+.counterValue {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.counterNum {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
   color: var(--white-100);
   line-height: 1;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
+  transition: color 0.1s;
+  font-variant-numeric: tabular-nums;
 }
 
-.label {
-  font-size: 0.8rem;
-  color: var(--white-48);
+.counterLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--white-36);
   line-height: 1.4;
-  max-width: 160px;
-  margin: 0 auto;
 }
 
-.footer {
-  text-align: center;
-  font-size: 0.75rem;
-  color: var(--white-24);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding-top: 2rem;
+/* Glitch effect */
+.glitching {
+  color: var(--bi-cyan);
+  text-shadow: 2px 0 var(--razor), -2px 0 var(--bi-electric);
+  animation: glitch-text 0.1s linear;
 }
 
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+@keyframes glitch-text {
+  0%   { transform: translate(0); }
+  20%  { transform: translate(-2px, 1px); }
+  40%  { transform: translate(2px, -1px); }
+  60%  { transform: translate(-1px, 2px); }
+  80%  { transform: translate(1px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@media (max-width: 900px) {
+  .countersGrid { grid-template-columns: repeat(2, 1fr); }
+  .countersInner { padding: 0 1.25rem; }
 }
 
 @media (max-width: 480px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
+  .countersGrid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .counterCard { padding: 1.5rem 1rem; }
 }

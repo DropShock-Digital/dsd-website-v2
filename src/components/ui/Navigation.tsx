@@ -1,106 +1,130 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Navigation.module.css";
 
-const navLinks = [
-  { href: "/photography", label: "Photo" },
-  { href: "/videography", label: "Video" },
-  { href: "/it-ai", label: "IT / AI" },
+const NAV_LINKS = [
+  { href: "/photography", label: "Photography" },
+  { href: "/videography", label: "Videography" },
+  { href: "/it-ai", label: "IT & AI" },
   { href: "/work", label: "Work" },
-  { href: "/about", label: "About" },
   { href: "/team", label: "Team" },
+  { href: "/journal", label: "Journal" },
 ];
 
 export function Navigation() {
-  const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeLink, setActiveLink] = useState("");
+  const pathname = usePathname();
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMenuOpen(false);
+    setActiveLink(pathname);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
-      <nav className={styles.nav} aria-label="Main navigation">
-        <Link href="/" className={styles.logo} aria-label="DropShock Digital home">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-            <polygon points="14,1 27,26 1,26" fill="#FF2E3A" />
+    <nav
+      ref={navRef}
+      className={`${styles.nav} ${scrolled ? styles.navScrolled : ""} ${menuOpen ? styles.navOpen : ""}`}
+      aria-label="Main navigation"
+    >
+      <div className={styles.navInner}>
+        {/* Logo */}
+        <Link href="/" className={styles.logo} aria-label="DropShock Digital — Home">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <polygon points="16,2 30,28 2,28" fill="var(--razor)" />
+            <polygon points="16,8 24,24 8,24" fill="none" stroke="var(--bi-cyan)" strokeWidth="1" opacity="0.6" />
           </svg>
           <span className={styles.logoText}>DropShock</span>
         </Link>
 
-        {/* Desktop nav */}
-        <ul className={styles.navList} role="list">
-          {navLinks.map((link) => (
+        {/* Desktop Links */}
+        <ul className={styles.desktopLinks} role="list">
+          {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className={`${styles.navLink} ${pathname === link.href ? styles.active : ""}`}
+                className={`${styles.navLink} ${pathname.startsWith(link.href) ? styles.navLinkActive : ""}`}
               >
                 {link.label}
+                {pathname.startsWith(link.href) && <span className={styles.navLinkIndicator} aria-hidden="true" />}
               </Link>
             </li>
           ))}
         </ul>
 
-        <div className={styles.navActions}>
-          <Link href="/signal" className="btn-primary" style={{ fontSize: "0.7rem", padding: "0.5rem 1rem" }}>
-            Book a call
-          </Link>
-          {/* Mobile menu toggle */}
-          <button
-            className={styles.menuBtn}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-          >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              {menuOpen ? (
-                <>
-                  <line x1="3" y1="3" x2="17" y2="17" stroke="currentColor" strokeWidth="1.5" />
-                  <line x1="17" y1="3" x2="3" y2="17" stroke="currentColor" strokeWidth="1.5" />
-                </>
-              ) : (
-                <>
-                  <line x1="2" y1="5" x2="18" y2="5" stroke="currentColor" strokeWidth="1.5" />
-                  <line x1="2" y1="10" x2="18" y2="10" stroke="currentColor" strokeWidth="1.5" />
-                  <line x1="2" y1="15" x2="18" y2="15" stroke="currentColor" strokeWidth="1.5" />
-                </>
-              )}
-            </svg>
-          </button>
-        </div>
-      </nav>
+        {/* CTA */}
+        <Link href="/signal" className={styles.navCta}>
+          Launch a flare
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Link>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className={styles.mobileMenu} role="dialog" aria-label="Mobile navigation">
-          <ul role="list">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`${styles.mobileLink} ${pathname === link.href ? styles.active : ""}`}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            <li>
-              <Link href="/signal" className="btn-primary" style={{ marginTop: "1rem" }}>
-                Book a call
+        {/* Mobile Hamburger */}
+        <button
+          className={styles.menuBtn}
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+        >
+          <span className={`${styles.hamburgerLine} ${menuOpen ? styles.lineTop : ""}`} />
+          <span className={`${styles.hamburgerLine} ${menuOpen ? styles.lineMid : ""}`} />
+          <span className={`${styles.hamburgerLine} ${menuOpen ? styles.lineBot : ""}`} />
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        id="mobile-menu"
+        className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ""}`}
+        aria-hidden={!menuOpen}
+      >
+        <ul className={styles.mobileLinks} role="list">
+          {NAV_LINKS.map((link, i) => (
+            <li
+              key={link.href}
+              className={styles.mobileLinkItem}
+              style={{ animationDelay: menuOpen ? `${i * 60}ms` : "0ms" }}
+            >
+              <Link
+                href={link.href}
+                className={`${styles.mobileLink} ${pathname.startsWith(link.href) ? styles.mobileLinkActive : ""}`}
+              >
+                <span className={styles.mobileLinkNum}>0{i + 1}</span>
+                {link.label}
               </Link>
             </li>
-          </ul>
-        </div>
-      )}
-    </header>
+          ))}
+          <li
+            className={styles.mobileLinkItem}
+            style={{ animationDelay: menuOpen ? `${NAV_LINKS.length * 60}ms` : "0ms" }}
+          >
+            <Link href="/signal" className={styles.mobileCta}>
+              Launch a flare →
+            </Link>
+          </li>
+        </ul>
+
+        {/* Mobile menu bg accent */}
+        <div className={styles.mobileBgAccent} aria-hidden="true" />
+      </div>
+    </nav>
   );
 }

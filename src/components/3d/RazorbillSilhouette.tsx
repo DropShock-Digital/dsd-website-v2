@@ -1,40 +1,125 @@
+"use client"
+
+import { useRef, useMemo, useEffect } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Float } from "@react-three/drei";
+import * as THREE from "three";
 import styles from "./RazorbillSilhouette.module.css";
 
-export function RazorbillSilhouette({ size = 400 }: { size?: number }) {
+function RazorbillMesh() {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame((state) => {
+    if (!groupRef.current) return;
+    const t = state.clock.getElapsedTime();
+    groupRef.current.rotation.y = Math.sin(t * 0.4) * 0.15;
+    groupRef.current.rotation.z = Math.sin(t * 0.3) * 0.04;
+  });
+
   return (
-    <div className={styles.wrap}>
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 200 200"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={styles.svg}
-        aria-hidden="true"
+    <group ref={groupRef}>
+      {/* Main body */}
+      <mesh position={[0, 0, 0]}>
+        <octahedronGeometry args={[1, 0]} />
+        <meshStandardMaterial
+          color="#0a1628"
+          metalness={0.3}
+          roughness={0.2}
+          transparent
+          opacity={0.85}
+        />
+      </mesh>
+
+      {/* Ice glow overlay */}
+      <mesh position={[0, 0, 0.05]}>
+        <octahedronGeometry args={[1.02, 0]} />
+        <meshBasicMaterial
+          color="#00c8ff"
+          transparent
+          opacity={0.08}
+          wireframe
+        />
+      </mesh>
+
+      {/* Razor bill triangle */}
+      <mesh position={[0, -0.8, 0]} rotation={[0, 0, Math.PI]}>
+        <coneGeometry args={[0.35, 1.0, 4]} />
+        <meshStandardMaterial
+          color="#ff2e3a"
+          emissive="#ff2e3a"
+          emissiveIntensity={0.4}
+          metalness={0.5}
+          roughness={0.3}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+function ParticleOrbit() {
+  const ref = useRef<THREE.Points>(null);
+  const count = 40;
+
+  const positions = useMemo(() => {
+    const arr = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2;
+      const radius = 1.8 + Math.random() * 0.5;
+      arr[i * 3] = Math.cos(angle) * radius;
+      arr[i * 3 + 1] = (Math.random() - 0.5) * 0.8;
+      arr[i * 3 + 2] = Math.sin(angle) * radius;
+    }
+    return arr;
+  }, []);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const geo = ref.current.geometry;
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  }, [positions]);
+
+  useFrame((state) => {
+    if (!ref.current) return;
+    ref.current.rotation.y = state.clock.getElapsedTime() * 0.08;
+    ref.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.05) * 0.1;
+  });
+
+  return (
+    <points ref={ref}>
+      <bufferGeometry />
+      <pointsMaterial
+        size={0.025}
+        color="#00c8ff"
+        transparent
+        opacity={0.5}
+        sizeAttenuation
+        depthWrite={false}
+      />
+    </points>
+  );
+}
+
+interface RazorbillSilhouetteProps {
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export function RazorbillSilhouette({ className, style }: RazorbillSilhouetteProps) {
+  return (
+    <div className={`${styles.wrap} ${className || ""}`} style={style} aria-hidden="true">
+      <Canvas
+        camera={{ position: [0, 0, 4], fov: 45 }}
+        dpr={[1, 1.5]}
+        gl={{ antialias: true, alpha: true }}
       >
-        {/* Body */}
-        <ellipse cx="100" cy="110" rx="55" ry="65" fill="#0a0c10" />
-        {/* Head */}
-        <circle cx="100" cy="60" r="30" fill="#0a0c10" />
-        {/* Left wing hint */}
-        <ellipse cx="55" cy="115" rx="20" ry="40" fill="#0a0c10" transform="rotate(-15 55 115)" />
-        {/* Right wing hint */}
-        <ellipse cx="145" cy="115" rx="20" ry="40" fill="#0a0c10" transform="rotate(15 145 115)" />
-        {/* Bill — sharp triangle, razor-red accent */}
-        <polygon points="100,88 112,95 88,95" fill="#FF2E3A" />
-        {/* Bill stripe */}
-        <line x1="88" y1="91" x2="112" y2="91" stroke="#9cc2d9" strokeWidth="1" opacity="0.6" />
-        {/* Left eye — slit */}
-        <ellipse cx="90" cy="55" rx="4" ry="1.5" fill="#9cc2d9" opacity="0.8" />
-        {/* Right eye — slit */}
-        <ellipse cx="110" cy="55" rx="4" ry="1.5" fill="#9cc2d9" opacity="0.8" />
-        {/* Eye glint */}
-        <circle cx="91" cy="54.5" r="0.8" fill="#e6eef5" opacity="0.9" />
-        <circle cx="111" cy="54.5" r="0.8" fill="#e6eef5" opacity="0.9" />
-        {/* Razor edge line on bill */}
-        <line x1="100" y1="88" x2="100" y2="95" stroke="#FF2E3A" strokeWidth="0.5" opacity="0.5" />
-      </svg>
-      <p className={styles.label}>Razorbill silhouette — DropShock mark</p>
+        <ambientLight intensity={0.2} />
+        <pointLight position={[3, 3, 3]} intensity={0.6} color="#00c8ff" />
+        <pointLight position={[-3, -2, 2]} intensity={0.3} color="#ff2e3a" />
+        <Float speed={1.5} rotationIntensity={0.08} floatIntensity={0.2}>
+          <RazorbillMesh />
+        </Float>
+        <ParticleOrbit />
+      </Canvas>
     </div>
   );
 }
